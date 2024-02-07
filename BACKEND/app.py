@@ -44,4 +44,36 @@ def index():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
 
-    
+@app.route('/logout')
+@app.route
+def logout():
+
+@app.route('/upload', methods=['GET', 'POST'])
+@login_required
+def upload():
+    if request.method == 'POST':
+        title = request.form['title']
+        file = request.files['file']
+
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(file_path)
+
+            new_image = Image(title=title, file_path=file_path, user=current_user)
+            db.session.add(new_image)
+            db.session.commit()
+
+            flash('Uploaded Successfully!')
+            return redirect(url_for('index'))
+        else:
+            flash('Invalid file format. Allowed formats are png, jpg, jpeg, gif, mp4.', 'danger')
+
+    return render_template('upload.html')
+
+if__name__ == '__main__':
+db.create_all()
+app.run(debug=True)
+
+
+
