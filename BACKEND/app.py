@@ -15,10 +15,16 @@ db = SQLAlchemy(app)
 login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 
-#USER AUTHENTIFICATION
+#USER AUTHENTIFICATION#
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(50), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
     images = db.relationship('Image', backref='user', lazy=True)
-    
+
+#IMAGE STORING DATABASE#
+class Image(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(100), nullable=False)
+    file_path = db.Column(db.string(225), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
