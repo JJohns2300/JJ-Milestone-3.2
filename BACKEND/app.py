@@ -28,3 +28,10 @@ class Image(db.Model):
     title = db.Column(db.String(100), nullable=False)
     file_path = db.Column(db.string(225), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1) [1].lower() in app.config['ALLOWED_EXTENSIONS']
