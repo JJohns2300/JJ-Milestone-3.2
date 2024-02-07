@@ -35,3 +35,13 @@ def load_user(user_id):
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1) [1].lower() in app.config['ALLOWED_EXTENSIONS']
+
+@app.route('/')
+def index():
+    images = Image=query.all()
+    return render_template('index.html', images=images)
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+
+    
